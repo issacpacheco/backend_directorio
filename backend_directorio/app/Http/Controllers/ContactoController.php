@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\contacto;
 use Illuminate\Http\Request;
+use App\Http\Middleware\CorsMiddleware;
 
 class ContactoController extends Controller
 {
+    // public function __construct(){
+    //     $this->middleware("cors");
+    // }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        return contacto::with(['telefono', 'correo', 'direccion'])->get();
+        return contacto::with(['Telefonos', 'Correos', 'Direcciones'])->get();
     }
 
     /**
@@ -31,9 +35,9 @@ class ContactoController extends Controller
     {
         //
         $datos = contacto::create($request->all());
-        $datos->phones()->createMany($request->phones);
-        $datos->emails()->createMany($request->emails);
-        $datos->addresses()->createMany($request->addresses);
+        $datos->Telefonos()->createMany($request->phones);
+        $datos->Correos()->createMany($request->emails);
+        $datos->Direcciones()->createMany($request->addresses);
         return response()->json($datos, 201);
     }
 
